@@ -1,6 +1,6 @@
 {
   "name": "sf-pane",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Experimental live Factory pane for Softory runs: phase, agents, tokens per role, and buttons.",
   "types": "./types/index.d.ts",
   "author": {

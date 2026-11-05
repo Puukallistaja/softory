@@ -1,6 +1,6 @@
 {
   "name": "sf",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Software factory as portable agent skills: scan, spec interview, build/review/verify loop, GitHub PR, guided human review. Includes Claude Code subagents and trace hooks.",
   "author": {
     "name": "Arto"
