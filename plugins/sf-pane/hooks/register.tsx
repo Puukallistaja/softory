@@ -3,8 +3,8 @@ import type { EngineInterface, Register } from 'claude-code'
 
 import type { AgentRow, RunStatus } from '../types'
 
-const PANE = 'sofactory'
-const STATUS_FILE = '.sofactory/status.json'
+const PANE = 'softory'
+const STATUS_FILE = '.softory/status.json'
 const ROLES = ['scout', 'builder', 'reviewer', 'verifier']
 
 const agents = atom({ plugin: 'sf-pane', key: 'agents' } as const, [], { shape: 'agents-1' })
@@ -28,9 +28,9 @@ async function loadStatus($: EngineInterface) {
 
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
-    await $.command.register({ name: 'sf-pane', description: 'Show the Sofactory pane beside the chat' })
+    await $.command.register({ name: 'sf-pane', description: 'Show the Softory pane beside the chat' })
     const ran = await next(e)
-    if (await $.fs.exists('.sofactory')) {
+    if (await $.fs.exists('.softory')) {
       await loadStatus($)
       void $.ui.open({ id: PANE, title: 'Factory' })
     }
@@ -75,7 +75,7 @@ export const register: Register = on => {
     return ran
   }).catch(($, e, next) => next(e))
 
-  // The orchestrator rewrites .sofactory/status.json at each phase change.
+  // The orchestrator rewrites .softory/status.json at each phase change.
   on('tool.call', { tool: 'Write' }, async ($, e, next) => {
     const ran = await next(e)
     if (String(e.file_path).endsWith(STATUS_FILE)) await loadStatus($)

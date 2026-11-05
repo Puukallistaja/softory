@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sofactory dashboard</title>
+<title>Softory dashboard</title>
 <style>
 :root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--dim:#6b6b66;--line:#e4e3de;
  --builder:#3b6fd8;--reviewer:#d9822b;--verifier:#2f9e6e;--scout:#8a63d2;--other:#9a9a94;
@@ -40,7 +40,7 @@ button{font:inherit;background:var(--card);color:var(--ink);border:1px solid var
 <body>
 <main>
  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-  <div><h1 id="title">Sofactory dashboard</h1><div class="sub" id="sub"></div></div>
+  <div><h1 id="title">Softory dashboard</h1><div class="sub" id="sub"></div></div>
   <button id="theme" type="button">Theme</button>
  </div>
  <div class="grid kpis" id="kpis"></div>
@@ -69,7 +69,7 @@ const DEMO={generated:new Date().toISOString(),repo:"demo",runs:[
  {id:"r3",title:"Type-check CI step",risk:"routine",outcome:"escalated",pr_url:"",minutes:22,reviewRounds:3,verifyRounds:0,
   agents:[{role:"builder",tokens:150000},{role:"reviewer",tokens:30000},{role:"reviewer",tokens:29000},{role:"reviewer",tokens:31000}],
   findings:[{source:"reviewer",severity:"blocking",status:"open"}],flows:[]}]};
-const D=window.SOFACTORY||DEMO, isDemo=!window.SOFACTORY;
+const D=window.SOFTORY||DEMO, isDemo=!window.SOFTORY;
 const ROLES=["scout","builder","reviewer","verifier","other"];
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue("--"+n).trim();
 const roleOf=a=>ROLES.includes(a.role)?a.role:"other";
@@ -82,7 +82,7 @@ function bindTips(root){root.querySelectorAll("[data-tip]").forEach(el=>{
  el.addEventListener("mouseleave",()=>tip.style.display="none")})}
 function render(){
  const runs=D.runs||[];
- document.getElementById("title").innerHTML="Sofactory dashboard"+(isDemo?'<span class="demo">demo data</span>':"");
+ document.getElementById("title").innerHTML="Softory dashboard"+(isDemo?'<span class="demo">demo data</span>':"");
  document.getElementById("sub").textContent=(D.repo?D.repo+" · ":"")+runs.length+" runs · generated "+new Date(D.generated).toLocaleString();
  const tok=r=>(r.agents||[]).reduce((s,a)=>s+(a.tokens||0),0);
  const total=runs.reduce((s,r)=>s+tok(r),0);

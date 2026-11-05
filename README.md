@@ -1,4 +1,4 @@
-# Sofactory
+# Softory
 
 A software factory made of agent skills. It scans a repo, interviews you for a spec, builds the change with a builder, reviewer and verifier, opens a GitHub PR, and walks you through reviewing it.
 
@@ -21,14 +21,14 @@ How you call a skill depends on the agent: `$sf-go` in Codex, `/sf:sf-go` in Cla
 
 1. Clone the repo somewhere you'll keep it:
    ```bash
-   git clone https://github.com/Puukallistaja/sofactory-plugins ~/sofactory-plugins
+   git clone https://github.com/Puukallistaja/softory-plugins ~/softory-plugins
    ```
 2. Link the skills into Codex's user skills folder:
    ```bash
    mkdir -p ~/.agents/skills
-   for s in ~/sofactory-plugins/plugins/sf/skills/*; do ln -s "$s" ~/.agents/skills/; done
+   for s in ~/softory-plugins/plugins/sf/skills/*; do ln -s "$s" ~/.agents/skills/; done
    ```
-   Linking instead of copying means `git pull` in `~/sofactory-plugins` updates the skills. To use them in one repo only, link them into that repo's `.agents/skills/` instead.
+   Linking instead of copying means `git pull` in `~/softory-plugins` updates the skills. To use them in one repo only, link them into that repo's `.agents/skills/` instead.
 3. Restart Codex, then run `/skills` or type `$sf` to check that the six skills appear.
 4. Sign in to GitHub once with `gh auth login`, so the factory can open PRs as you.
 
@@ -38,23 +38,23 @@ In Codex the roles run as subagents when Codex starts them, and the questions co
 
 1. Type these into Claude Code, either the desktop app's Code tab or `claude` in a terminal:
    ```
-   /plugin marketplace add Puukallistaja/sofactory-plugins
-   /plugin install sf@sofactory
-   /plugin install sf-pane@sofactory
+   /plugin marketplace add Puukallistaja/softory-plugins
+   /plugin install sf@softory
+   /plugin install sf-pane@softory
    ```
    The last line is the optional live pane. Claude Code clones the repo itself, so there's nothing to download.
 2. Start a new session. Type `/sf:` and the six skills should appear. `/agents` should list `sf:builder`, `sf:reviewer`, `sf:verifier` and `sf:scout`.
 3. Sign in to GitHub once with `gh auth login`.
 
-The plugin adds the ready-made subagents, a hook that logs every subagent call with its token usage to `.sofactory/trace.jsonl`, and clickable questions. `/sf-pane` opens the live pane. The pane uses an early-access Claude Code API, tested on version 2.1.318, so it may not load on other versions.
+The plugin adds the ready-made subagents, a hook that logs every subagent call with its token usage to `.softory/trace.jsonl`, and clickable questions. `/sf-pane` opens the live pane. The pane uses an early-access Claude Code API, tested on version 2.1.318, so it may not load on other versions.
 
 To have Claude Code offer the plugin to anyone who opens a repo, add this to the repo's `.claude/settings.json`:
 ```json
 {
   "extraKnownMarketplaces": {
-    "sofactory": { "source": { "source": "github", "repo": "Puukallistaja/sofactory-plugins" } }
+    "softory": { "source": { "source": "github", "repo": "Puukallistaja/softory-plugins" } }
   },
-  "enabledPlugins": { "sf@sofactory": true }
+  "enabledPlugins": { "sf@softory": true }
 }
 ```
 
@@ -79,11 +79,11 @@ The skills only need file access, a shell and git. Where an agent has no subagen
 4. Check the preview and approve it. Nothing changes in the repo before that.
 5. Follow the status cards. When the PR is up, choose the guided review.
 
-Subagents ask before running commands. To pre-approve the usual ones, allow `git`, `gh pr`, your test command, and writes to `.sofactory/` in your agent's permission settings.
+Subagents ask before running commands. To pre-approve the usual ones, allow `git`, `gh pr`, your test command, and writes to `.softory/` in your agent's permission settings.
 
 ## What it writes
 
-Everything goes into `.sofactory/` in the repo. It is added to `.git/info/exclude`, so it is never committed.
+Everything goes into `.softory/` in the repo. It is added to `.git/info/exclude`, so it is never committed.
 
 - `brief.md`: the repo brief every role reads.
 - `specs/*.yaml`: your specs, in the same format as the TypeScript harness.
@@ -102,8 +102,8 @@ Each run uses several times the tokens of a normal chat, because every role read
 
 ## Update or remove
 
-- **Codex and other agents:** run `git pull` in `~/sofactory-plugins`. To remove, delete the `sf-*` links from the skills folder.
-- **Claude Code:** run `/plugin marketplace update sofactory` and start a new session. To remove, run `/plugin uninstall sf@sofactory`, `/plugin uninstall sf-pane@sofactory`, then `/plugin marketplace remove sofactory`.
+- **Codex and other agents:** run `git pull` in `~/softory-plugins`. To remove, delete the `sf-*` links from the skills folder.
+- **Claude Code:** run `/plugin marketplace update softory` and start a new session. To remove, run `/plugin uninstall sf@softory`, `/plugin uninstall sf-pane@softory`, then `/plugin marketplace remove softory`.
 
 ## Troubleshooting
 

@@ -1,10 +1,10 @@
 {
-  "name": "sofactory",
+  "name": "softory",
   "owner": {
     "name": "Arto"
   },
   "metadata": {
-    "description": "Sofactory software factory as Claude Code skills and subagents",
+    "description": "Softory software factory as Claude Code skills and subagents",
     "version": "0.1.0"
   },
   "plugins": [

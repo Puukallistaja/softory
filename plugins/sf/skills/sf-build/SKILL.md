@@ -1,6 +1,6 @@
 ---
 name: sf-build
-description: Sofactory build. Use when the user wants a spec built by agents - preview and approve, builder and reviewer loop, verifiers on edge-risk tasks, then a GitHub PR. Takes a spec path, or uses the newest spec in .sofactory/specs/.
+description: Softory build. Use when the user wants a spec built by agents - preview and approve, builder and reviewer loop, verifiers on edge-risk tasks, then a GitHub PR. Takes a spec path, or uses the newest spec in .softory/specs/.
 ---
 
 # Build one spec
@@ -26,13 +26,13 @@ These are defaults; the user can change them at the preview.
 
 ## Run folder and status file
 
-Pick `RUN = <yyyymmdd-hhmm>-<slug>`. Create `.sofactory/runs/$RUN/`, write `$RUN` to `.sofactory/current-run`, and copy the spec there as `spec.yaml`.
+Pick `RUN = <yyyymmdd-hhmm>-<slug>`. Create `.softory/runs/$RUN/`, write `$RUN` to `.softory/current-run`, and copy the spec there as `spec.yaml`.
 
 Keep these files current, because they are the run's observability:
 
 - `events.jsonl`: one JSON line per event, appended with whatever file-writing tool you have. The format is `{"ts":"<ISO>","type":"phase|agent|finding|verdict|outcome",...}`. For every role that returns, log `{"type":"agent","role":"builder","label":"builder-1","phase":"build","round":1,"tokens":N,"tool_uses":N,"ms":N}`, using `null` for anything your client doesn't report.
 - `findings.json`: every finding, with an id (`f-1`, `f-2`...), its source, round, severity, claim and status (`open`, `fixed` or `wontfix`).
-- `.sofactory/status.json`: overwrite it at every phase change:
+- `.softory/status.json`: overwrite it at every phase change:
 ```json
 {"run":"<RUN>","title":"<spec title>","phase":"building","round":1,"maxRounds":3,
  "agents":[{"label":"builder-1","role":"builder","status":"running","tokens":0,"ms":0}],
@@ -42,10 +42,10 @@ Keep these files current, because they are the run's observability:
 
 ## 1. Preview and approve
 
-Read the spec and `.sofactory/brief.md`, then show a preview card:
+Read the spec and `.softory/brief.md`, then show a preview card:
 - The title, the goal in one line, the risk tag, and the acceptance flows as a checklist.
 - A plan table with columns for phase, role, model and limit. For example: `build | builder | session model | —`, `review | reviewer | session model | ≤3 rounds`, `verify | verifier ×<flows> | smaller model | ≤2 rounds (edge only)`.
-- The branch name `sofactory/<slug>` and its base branch.
+- The branch name `softory/<slug>` and its base branch.
 - A rough usage estimate: routine work is about 150k to 400k tokens and edge work about 400k to 1.2M. Remind the user this counts against their plan or API bill.
 
 Set the phase to `awaiting_approval` and ask "Start this run?" with "Approve and run (Recommended)", "Change limits or models", "Edit the spec" and "Cancel". Do nothing irreversible before Approve.
@@ -53,8 +53,8 @@ Set the phase to `awaiting_approval` and ask "Start this run?" with "Approve and
 ## 2. Build
 
 - Check that the worktree is clean with `git status --porcelain`. If it isn't, ask whether to stash, commit or stop.
-- Record `BASE=$(git rev-parse HEAD)` in the run folder, then run `git checkout -b sofactory/<slug>`.
-- Run the **builder** (label `builder-1`) with the full spec as YAML plus: "The workspace root is your current directory. You are on branch sofactory/<slug>. Start." Keep a handle on it so you can continue it later.
+- Record `BASE=$(git rev-parse HEAD)` in the run folder, then run `git checkout -b softory/<slug>`.
+- Run the **builder** (label `builder-1`) with the full spec as YAML plus: "The workspace root is your current directory. You are on branch softory/<slug>. Start." Keep a handle on it so you can continue it later.
 
 ## 3. Review loop (up to 3 rounds)
 
@@ -79,8 +79,8 @@ For round v = 1 to 2:
 
 Set the phase to `publishing`. Write `report.md` in the run folder with the outcome, the spec, what the builder did (its last summary), a findings table with statuses, a verification table, a role usage table from events.jsonl, and the remaining risks.
 
-1. Commit on the branch, leaving out `.sofactory/`: `git add -A && git commit -m "<spec title>" -m "<goal>"`.
-2. Push with `git push -u origin sofactory/<slug>`.
+1. Commit on the branch, leaving out `.softory/`: `git add -A && git commit -m "<spec title>" -m "<goal>"`.
+2. Push with `git push -u origin softory/<slug>`.
 3. Open the PR with `gh pr create --title "<title>" --body-file <report.md>`, adding `--draft` when the outcome is escalated. If `gh` is missing or signed out, use any GitHub tool your client has. If nothing works, give the user the compare URL and the report to paste.
 4. Save the PR URL in status.json and events.jsonl.
 

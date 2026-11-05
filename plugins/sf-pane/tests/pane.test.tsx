@@ -3,7 +3,7 @@ import { expect, test } from 'claude-code/testing'
 const PANE = {
   plugin: 'sf-pane',
   component: 'Pane',
-  requestId: 'sofactory',
+  requestId: 'softory',
   props: { title: 'Factory', isFocused: false, bodyColumns: 44, placement: 'dock', scroll: { offset: 0, bodyRows: 30 }, view: {} },
 } as const
 

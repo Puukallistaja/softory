@@ -11,7 +11,7 @@
 | Verifier on edge-risk only, ≤2 rounds, parallel per flow | Same, one foreground Agent call per flow in a single message |
 | PR on GitHub | `gh pr create` (draft when escalated); falls back to the GitHub MCP tools or a compare URL |
 | Guided, inquisitorial human review | `sf-review`: predict-then-reveal per risky stop, then an explicit decision |
-| Event log and UI | `.sofactory/runs/<run>/events.jsonl`, `trace.jsonl`, status cards in chat, live pane, HTML dashboard |
+| Event log and UI | `.softory/runs/<run>/events.jsonl`, `trace.jsonl`, status cards in chat, live pane, HTML dashboard |
 
 ## What is lost or weaker
 

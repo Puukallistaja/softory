@@ -1,6 +1,6 @@
 ---
 name: sf-spec
-description: Sofactory grill-me spec interview. Use when the user wants to turn an idea, bug or improvement into a build spec, says "spec this" or "grill me", or before sf-build when no spec exists.
+description: Softory grill-me spec interview. Use when the user wants to turn an idea, bug or improvement into a build spec, says "spec this" or "grill me", or before sf-build when no spec exists.
 ---
 
 # Grill out a spec
@@ -9,7 +9,7 @@ Goal: a spec the builder can finish without asking anything, which the user agre
 
 ## How to interview
 
-- **One question at a time.** Each question offers your suggested answer first, labelled "<answer> (Recommended)", plus one to three real alternatives. Base the suggestion on the code and `.sofactory/brief.md`: read the relevant code before asking, and never ask what the code already answers.
+- **One question at a time.** Each question offers your suggested answer first, labelled "<answer> (Recommended)", plus one to three real alternatives. Base the suggestion on the code and `.softory/brief.md`: read the relevant code before asking, and never ask what the code already answers.
 - Ask in this order, skipping what's already clear: the outcome (what is true when done), who or what notices, scope edges (what is explicitly out), constraints (APIs to keep stable, performance, compatibility), acceptance flows (how we'd show it works), and risk.
 - Push on vague words. "Fast" means how fast, measured where. "Handle errors" means which errors, and what the user sees.
 - Stop when every acceptance flow is concrete enough for a verifier to run. That's usually 4 to 8 questions. Never ask more than 12; at that point show the draft and ask what's still unclear.
@@ -20,7 +20,7 @@ Tag `risk: edge` when the change touches concurrency, sync, caching, auth, payme
 
 ## Output
 
-Write `.sofactory/specs/<slug>.yaml`:
+Write `.softory/specs/<slug>.yaml`:
 
 ```yaml
 title: Merge offline edits on reconnect

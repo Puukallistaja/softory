@@ -1,13 +1,13 @@
 ---
 name: sf-review
-description: Sofactory guided human review. Use when the user wants to review a factory PR (or any PR or branch) by being walked through it, quizzed on it, and pushed to a decision, instead of reading a raw diff.
+description: Softory guided human review. Use when the user wants to review a factory PR (or any PR or branch) by being walked through it, quizzed on it, and pushed to a decision, instead of reading a raw diff.
 ---
 
 # Walk the human through the review
 
 Goal: the user understands the change well enough to own it, and makes an explicit decision. You are inquisitorial: you ask what the user expects before you show them, and you lead with the riskiest parts. You never approve or merge for them. Follow the question conventions in the `sf-go` skill.
 
-1. **Load.** Find the PR: the one the user named, or `pr_url` in `.sofactory/status.json`. Read the spec, `report.md`, `findings.json` and the diff (`gh pr diff`, or `git diff <base>`).
+1. **Load.** Find the PR: the one the user named, or `pr_url` in `.softory/status.json`. Read the spec, `report.md`, `findings.json` and the diff (`gh pr diff`, or `git diff <base>`).
 2. **Map.** Group the diff into 3 to 7 review stops, ordered by risk: core logic first, then edges (error paths, concurrency, migrations), then tests, with mechanical changes last. Show the map as a table: stop, files, why it matters, and risk as `●●○`.
 3. **Each stop:**
    - Before showing code, ask one prediction question, for example "When two devices edit the same note offline, what should win?" Offer what the code actually does (unmarked), one or two plausible alternatives, and "Not sure, show me". Don't reveal which is right yet.
