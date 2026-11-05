@@ -1,0 +1,13 @@
+title: Merge offline note edits
+goal: >
+  Add src/merge.mjs exporting merge(local, remote) for notes maps
+  ({id: {text, updatedAt, deleted?}}) so that two devices that edited offline
+  converge on the same result whichever order they merge in.
+risk: edge
+constraints:
+  - Plain Node 22 ESM, no dependencies; tests with node --test
+acceptance:
+  - id: commutative
+    description: merge(a, b) deep-equals merge(b, a) for concurrent edits of the same note
+  - id: delete-vs-edit
+    description: A delete and a later edit of the same note resolve deterministically (newest updatedAt wins, ties broken by a documented rule)

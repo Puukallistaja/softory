@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sofactory dashboard</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#1d1d1b;--dim:#6b6b66;--line:#e4e3de;
+ --builder:#3b6fd8;--reviewer:#d9822b;--verifier:#2f9e6e;--scout:#8a63d2;--other:#9a9a94;
+ --ok:#2f9e6e;--bad:#c94a3c;--warn:#d9a12b;--sky:#3b6fd8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--card:#1f1f1d;--ink:#ecebe6;--dim:#9b9a94;--line:#33332f;
+ --builder:#6b95ee;--reviewer:#eba05a;--verifier:#4fbf8d;--scout:#a789e6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#151514;--card:#1f1f1d;--ink:#ecebe6;--dim:#9b9a94;--line:#33332f;
+ --builder:#6b95ee;--reviewer:#eba05a;--verifier:#4fbf8d;--scout:#a789e6;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1100px;margin:0 auto;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:0 0 12px}
+.sub{color:var(--dim);margin-bottom:20px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:12px}
+.two{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.kpi .v{font-size:26px;font-weight:600}.kpi .l{color:var(--dim);font-size:12px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--dim);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--dim);font-weight:500}
+.tbl{overflow-x:auto}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid var(--line)}
+.done{color:var(--ok)}.escalated{color:var(--warn)}.failed{color:var(--bad)}
+a{color:var(--builder)}
+svg text{fill:var(--dim);font-size:11px}
+.demo{background:var(--warn);color:#000;padding:2px 8px;border-radius:4px;font-size:12px;margin-left:8px}
+button{font:inherit;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);padding:4px 8px;border-radius:4px;font-size:12px;display:none}
+</style>
+</head>
+<body>
+<main>
+ <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+  <div><h1 id="title">Sofactory dashboard</h1><div class="sub" id="sub"></div></div>
+  <button id="theme" type="button">Theme</button>
+ </div>
+ <div class="grid kpis" id="kpis"></div>
+ <div class="grid two">
+  <div class="card"><h2>Tokens per run, by role</h2><div id="tokens"></div><div class="legend" id="legend"></div></div>
+  <div class="card"><h2>Share of tokens by role</h2><div id="share"></div></div>
+ </div>
+ <div class="grid two">
+  <div class="card"><h2>Findings by source and severity</h2><div id="findings"></div></div>
+  <div class="card"><h2>Rounds used per run</h2><div id="rounds"></div></div>
+ </div>
+ <div class="card tbl"><h2>Runs</h2><p style="color:var(--dim);font-size:12px;margin:-6px 0 8px">Flows: ✅ pass · ❌ fail · ◌ could not be verified</p><table id="runs"></table></div>
+</main>
+<div class="tip" id="tip"></div>
+<script src="data.js"></script>
+<script>
+(function(){
+const DEMO={generated:new Date().toISOString(),repo:"demo",runs:[
+ {id:"r1",title:"Add retry to sync client",risk:"routine",outcome:"done",pr_url:"",minutes:14,reviewRounds:2,verifyRounds:0,
+  agents:[{role:"builder",tokens:182000},{role:"reviewer",tokens:41000},{role:"reviewer",tokens:38000}],
+  findings:[{source:"reviewer",severity:"blocking",status:"fixed"},{source:"reviewer",severity:"minor",status:"open"}],flows:[]},
+ {id:"r2",title:"Merge offline edits on reconnect",risk:"edge",outcome:"done",pr_url:"",minutes:41,reviewRounds:3,verifyRounds:2,
+  agents:[{role:"builder",tokens:420000},{role:"reviewer",tokens:52000},{role:"reviewer",tokens:47000},{role:"reviewer",tokens:44000},{role:"verifier",tokens:96000},{role:"verifier",tokens:88000},{role:"verifier",tokens:90000}],
+  findings:[{source:"reviewer",severity:"blocking",status:"fixed"},{source:"reviewer",severity:"blocking",status:"fixed"},{source:"verifier",severity:"blocking",status:"fixed"}],
+  flows:[{id:"a",pass:true},{id:"b",pass:true},{id:"c",pass:true}]},
+ {id:"r3",title:"Type-check CI step",risk:"routine",outcome:"escalated",pr_url:"",minutes:22,reviewRounds:3,verifyRounds:0,
+  agents:[{role:"builder",tokens:150000},{role:"reviewer",tokens:30000},{role:"reviewer",tokens:29000},{role:"reviewer",tokens:31000}],
+  findings:[{source:"reviewer",severity:"blocking",status:"open"}],flows:[]}]};
+const D=window.SOFACTORY||DEMO, isDemo=!window.SOFACTORY;
+const ROLES=["scout","builder","reviewer","verifier","other"];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue("--"+n).trim();
+const roleOf=a=>ROLES.includes(a.role)?a.role:"other";
+const fmt=n=>n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?Math.round(n/1e3)+"k":String(n||0);
+const cut=(t,n)=>t.length>n?"…"+t.slice(-(n-1)):t;
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tip=document.getElementById("tip");
+function bindTips(root){root.querySelectorAll("[data-tip]").forEach(el=>{
+ el.addEventListener("mousemove",e=>{tip.textContent=el.dataset.tip;tip.style.display="block";tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY+12)+"px"});
+ el.addEventListener("mouseleave",()=>tip.style.display="none")})}
+function render(){
+ const runs=D.runs||[];
+ document.getElementById("title").innerHTML="Sofactory dashboard"+(isDemo?'<span class="demo">demo data</span>':"");
+ document.getElementById("sub").textContent=(D.repo?D.repo+" · ":"")+runs.length+" runs · generated "+new Date(D.generated).toLocaleString();
+ const tok=r=>(r.agents||[]).reduce((s,a)=>s+(a.tokens||0),0);
+ const total=runs.reduce((s,r)=>s+tok(r),0);
+ const ok=runs.filter(r=>r.outcome==="done").length;
+ const avgR=runs.length?(runs.reduce((s,r)=>s+(r.reviewRounds||0),0)/runs.length).toFixed(1):"0";
+ const fx=runs.flatMap(r=>r.findings||[]);const fixed=fx.filter(f=>f.status==="fixed").length;const blockOpen=fx.filter(f=>f.severity==="blocking"&&f.status==="open").length;
+ document.getElementById("kpis").innerHTML=[
+  ["Runs",runs.length],["Shipped without escalation",runs.length?Math.round(ok/runs.length*100)+"%":"—"],
+  ["Subagent tokens",fmt(total)],["Avg review rounds",avgR],["Blocking findings open",blockOpen],["Findings fixed",fixed+" of "+fx.length]]
+  .map(([l,v])=>`<div class="card kpi"><div class="v">${esc(v)}</div><div class="l">${esc(l)}</div></div>`).join("");
+ // stacked bars
+ const W=520,rowH=26,H=Math.max(60,runs.length*rowH+24),L=150,max=Math.max(1,...runs.map(tok));
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Tokens per run by role">`;
+ runs.forEach((r,i)=>{let x=L;const y=i*rowH+4;
+  s+=`<text x="${L-8}" y="${y+14}" text-anchor="end">${esc(cut(r.title||r.id,24))}</text>`;
+  ROLES.forEach(role=>{const v=(r.agents||[]).filter(a=>roleOf(a)===role).reduce((t,a)=>t+(a.tokens||0),0);if(!v)return;
+   const w=(W-L-50)*v/max;s+=`<rect x="${x}" y="${y}" width="${Math.max(w-1,1)}" height="18" rx="2" fill="${css(role)}" data-tip="${esc(r.title)} · ${role}: ${fmt(v)}"/>`;x+=w});
+  s+=`<text x="${x+6}" y="${y+14}">${fmt(tok(r))}</text>`});
+ document.getElementById("tokens").innerHTML=s+"</svg>";
+ const used=ROLES.filter(role=>runs.some(r=>(r.agents||[]).some(a=>roleOf(a)===role)));
+ document.getElementById("legend").innerHTML=used.map(r=>`<span><i style="background:${css(r)}"></i>${r}</span>`).join("");
+ // share bars
+ const by=Object.fromEntries(used.map(r=>[r,runs.flatMap(x=>x.agents||[]).filter(a=>roleOf(a)===r).reduce((t,a)=>t+(a.tokens||0),0)]));
+ let sh=`<svg viewBox="0 0 400 ${used.length*30+10}" width="100%" role="img" aria-label="Share of tokens by role">`;
+ used.forEach((r,i)=>{const p=total?by[r]/total:0;const y=i*30+6;
+  sh+=`<text x="0" y="${y+13}">${r}</text><rect x="70" y="${y}" width="${Math.max(260*p,1)}" height="18" rx="2" fill="${css(r)}" data-tip="${r}: ${fmt(by[r])}"/><text x="${76+260*p}" y="${y+13}">${Math.round(p*100)}%</text>`});
+ document.getElementById("share").innerHTML=sh+"</svg>";
+ // findings grouped
+ const groups=["reviewer","verifier","human"];const sev=["blocking","minor"];
+ const fmax=Math.max(1,...groups.flatMap(g=>sev.map(v=>fx.filter(f=>f.source===g&&f.severity===v).length)));
+ let fs=`<svg viewBox="0 0 400 150" width="100%" role="img" aria-label="Findings">`;
+ groups.forEach((g,gi)=>{sev.forEach((v,vi)=>{const n=fx.filter(f=>f.source===g&&f.severity===v).length;const h=100*n/fmax;const x=30+gi*125+vi*42;
+  fs+=`<rect x="${x}" y="${115-h}" width="36" height="${Math.max(h,1)}" rx="2" fill="${vi?css("other"):css("bad")}" data-tip="${g} ${v}: ${n}"/><text x="${x+18}" y="${110-h}" text-anchor="middle">${n}</text>`});
+  fs+=`<text x="${30+gi*125+39}" y="135" text-anchor="middle">${g}</text>`});
+ document.getElementById("findings").innerHTML=fs+`</svg><div class="legend"><span><i style="background:${css("bad")}"></i>blocking</span><span><i style="background:${css("other")}"></i>minor</span></div>`;
+ // rounds dots
+ let rd=`<svg viewBox="0 0 400 ${Math.max(40,runs.length*24+10)}" width="100%" role="img" aria-label="Rounds per run">`;
+ runs.forEach((r,i)=>{const y=i*24+14;rd+=`<text x="0" y="${y+4}">${esc(cut(r.title||r.id,24))}</text>`;
+  for(let k=0;k<3;k++)rd+=`<circle cx="${170+k*20}" cy="${y}" r="7" fill="${k<(r.reviewRounds||0)?css("reviewer"):"none"}" stroke="${css("reviewer")}" data-tip="review ${k+1}/3"/>`;
+  for(let k=0;k<2;k++)rd+=`<circle cx="${250+k*20}" cy="${y}" r="7" fill="${k<(r.verifyRounds||0)?css("verifier"):"none"}" stroke="${css("verifier")}" data-tip="verify ${k+1}/2"/>`});
+ document.getElementById("rounds").innerHTML=rd+`</svg><div class="legend"><span><i style="background:${css("reviewer")}"></i>review (≤3)</span><span><i style="background:${css("verifier")}"></i>verify (≤2, edge only)</span></div>`;
+ // table
+ document.getElementById("runs").innerHTML=`<tr><th>Run</th><th>Risk</th><th>Outcome</th><th>Rounds</th><th>Flows</th><th>Tokens</th><th>Time</th><th>PR</th></tr>`+
+  runs.map(r=>`<tr><td>${esc(r.title)}<br><span style="color:var(--dim);font-size:12px">${esc(r.id)}</span></td><td><span class="pill">${esc(r.risk)}</span></td>
+  <td class="${esc(r.outcome)}">${esc(r.outcome)}</td><td>${r.reviewRounds||0} review · ${r.verifyRounds||0} verify</td>
+  <td>${(r.flows||[]).map(f=>`<span title="${esc(f.id)}">${f.pass===true?"✅":f.pass===false?"❌":"◌"}</span>`).join(" ")||"—"}</td><td>${fmt(tok(r))}</td><td>${r.minutes!=null?r.minutes+" min":"—"}</td>
+  <td>${r.pr_url?`<a href="${esc(r.pr_url)}" target="_blank" rel="noopener">open</a>`:"—"}</td></tr>`).join("");
+ document.querySelectorAll("#tokens,#share,#findings,#rounds").forEach(bindTips);
+}
+document.getElementById("theme").onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";render()};
+render();
+})();
+</script>
+</body>
+</html>

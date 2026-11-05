@@ -1,0 +1,15 @@
+{
+  "name": "sf",
+  "version": "0.1.0",
+  "description": "Software factory: onboard, spec interview, build/review/verify loop, GitHub PR, guided human review. Runs on your Claude subscription inside Claude Code.",
+  "author": {
+    "name": "Arto"
+  },
+  "keywords": [
+    "agents",
+    "harness",
+    "factory",
+    "review",
+    "observability"
+  ]
+}

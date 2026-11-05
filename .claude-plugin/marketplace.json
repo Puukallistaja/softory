@@ -1,0 +1,22 @@
+{
+  "name": "sofactory",
+  "owner": {
+    "name": "Arto"
+  },
+  "metadata": {
+    "description": "Sofactory software factory as Claude Code skills and subagents",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "sf",
+      "source": "./plugins/sf",
+      "description": "Onboard a repo, grill out a spec, build with a builder/reviewer/verifier loop, open a PR, and walk the human through review."
+    },
+    {
+      "name": "sf-pane",
+      "source": "./plugins/sf-pane",
+      "description": "Experimental: a live Factory pane beside the chat with agent status, tokens per role, and approve/dashboard buttons."
+    }
+  ]
+}
