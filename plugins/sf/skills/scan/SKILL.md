@@ -1,5 +1,5 @@
 ---
-name: sf-scan
+name: scan
 description: Softory repo scan. Use when the user wants a repo mapped, a project brief written, or a ranked list of improvements to pick from, or before the first Softory build in a repo.
 ---
 
@@ -7,7 +7,7 @@ description: Softory repo scan. Use when the user wants a repo mapped, a project
 
 Goal: a short brief that every later role reads, and a ranked list of improvements the user picks from.
 
-Follow the conventions in the `sf-go` skill for questions, subagents and status. The scout's instructions are in `roles/scout.md` next to this file.
+Follow the conventions in the `go` skill for questions, subagents and status. The scout's instructions are in `roles/scout.md` next to this file.
 
 1. Create `.softory/` if missing and add `.softory/` to `.git/info/exclude`, unless the user wants it committed.
 2. Write `.softory/status.json` with `"phase":"scanning"`.
@@ -16,4 +16,4 @@ Follow the conventions in the `sf-go` skill for questions, subagents and status.
 5. Rank the candidates by `impact * 2 - effort`, where effort is S=1, M=2, L=3. Break ties by lower risk. Drop anything the brief shows is already done.
 6. Show the user the brief's first 10 lines with the file path, and a table of the top candidates: rank, title, why (one line), effort, risk, and impact as stars (`★★★★☆`).
 7. Ask, allowing several picks: "Which improvements should the factory take on?" Offer the top 4 (label: the title; description: why, effort and risk). The user can also type their own ask.
-8. Write the picks to `.softory/queue.json`, then take them one at a time, highest ranked first, into the `sf-spec` skill.
+8. Write the picks to `.softory/queue.json`, then take them one at a time, highest ranked first, into the `spec` skill.

@@ -2,7 +2,7 @@
 # Softory trace hook. Appends each hook event (as Claude Code sends it on stdin)
 # to .softory/trace.jsonl in the project, wrapped with a timestamp.
 # No dependencies beyond bash, tr and date. Only logs inside repos that opted in
-# (a .softory/ folder exists, which the sf-scan skill creates).
+# (a .softory/ folder exists, which the scan skill creates).
 dir="${CLAUDE_PROJECT_DIR:-$PWD}/.softory"
 [ -d "$dir" ] || { cat >/dev/null; exit 0; }
 ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"

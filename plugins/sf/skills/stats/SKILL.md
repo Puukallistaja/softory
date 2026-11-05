@@ -1,5 +1,5 @@
 ---
-name: sf-stats
+name: stats
 description: Softory stats dashboard with charts. Use when the user asks how factory runs went, what they cost, tokens per role, rounds or findings, or wants graphs or a dashboard of Softory activity.
 ---
 

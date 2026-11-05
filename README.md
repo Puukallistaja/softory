@@ -8,14 +8,14 @@ The skills use the open Agent Skills format (a folder with a `SKILL.md`), so the
 
 | Skill | What it does |
 | --- | --- |
-| `sf-go` | Runs the whole factory, stage by stage. Start here. |
-| `sf-scan` | Maps the repo, writes a short brief, and suggests ranked improvements for you to pick. |
-| `sf-spec` | Grill-me interview: one question at a time, each with a suggested answer. |
-| `sf-build` | Shows a preview for you to approve, then builds, reviews (up to 3 rounds), verifies edge-risk work (up to 2 rounds, one verifier per flow) and opens the PR. |
-| `sf-review` | A guided review: you predict, it shows the code, then you decide. |
-| `sf-stats` | A dashboard with charts of tokens per role, rounds, findings and runs. |
+| `go` | Runs the whole factory, stage by stage. Start here. |
+| `scan` | Maps the repo, writes a short brief, and suggests ranked improvements for you to pick. |
+| `spec` | Grill-me interview: one question at a time, each with a suggested answer. |
+| `build` | Shows a preview for you to approve, then builds, reviews (up to 3 rounds), verifies edge-risk work (up to 2 rounds, one verifier per flow) and opens the PR. |
+| `review` | A guided review: you predict, it shows the code, then you decide. |
+| `stats` | A dashboard with charts of tokens per role, rounds, findings and runs. |
 
-How you call a skill depends on the agent: `$sf-go` in Codex, `/sf:sf-go` in Claude Code. Asking in plain words also works, such as "run the factory on this repo".
+How you call a skill depends on the agent: `$go` in Codex, `/sf:go` in Claude Code. Asking in plain words also works, such as "run the factory on this repo".
 
 ## Install in Codex
 
@@ -74,7 +74,7 @@ The skills only need file access, a shell and git. Where an agent has no subagen
 ## First run
 
 1. Open the repo in your agent.
-2. Run `sf-go`. It scans the repo and shows ranked improvements. Pick one, or type your own ask instead.
+2. Run `go`. It scans the repo and shows ranked improvements. Pick one, or type your own ask instead.
 3. Answer the spec questions. The first option is its suggestion, so picking it is usually right.
 4. Check the preview and approve it. Nothing changes in the repo before that.
 5. Follow the status cards. When the PR is up, choose the guided review.
@@ -94,7 +94,7 @@ Everything goes into `.softory/` in the repo. It is added to `.git/info/exclude`
 
 ## Changing the roles
 
-Each role's instructions are a plain Markdown file: `plugins/sf/skills/sf-build/roles/` holds the builder, reviewer and verifier, and `plugins/sf/skills/sf-scan/roles/` holds the scout. Edit those. If you use the Claude Code plugin, run `plugins/sf/scripts/sync-agents.sh` afterwards to copy the changes into its subagents. Models are set in the agent files (`model:` in `plugins/sf/agents/*.md`) or in your agent's own settings.
+Each role's instructions are a plain Markdown file: `plugins/sf/skills/build/roles/` holds the builder, reviewer and verifier, and `plugins/sf/skills/scan/roles/` holds the scout. Edit those. If you use the Claude Code plugin, run `plugins/sf/scripts/sync-agents.sh` afterwards to copy the changes into its subagents. Models are set in the agent files (`model:` in `plugins/sf/agents/*.md`) or in your agent's own settings.
 
 ## Usage and cost
 
@@ -107,6 +107,6 @@ Each run uses several times the tokens of a normal chat, because every role read
 
 ## Troubleshooting
 
-- **The skills don't show up.** Restart the agent. Check that each skill is its own folder with a `SKILL.md` directly inside the skills folder (for example `~/.agents/skills/sf-go/SKILL.md`), not nested one level deeper.
+- **The skills don't show up.** Restart the agent. Check that each skill is its own folder with a `SKILL.md` directly inside the skills folder (for example `~/.agents/skills/go/SKILL.md`), not nested one level deeper.
 - **A role says a command was denied.** Approve it when asked, or allow it in your agent's permission settings.
 - **The PR step fails.** Run `gh auth status`. The repo also needs a GitHub remote. Without one, the run stops after the local commit.
