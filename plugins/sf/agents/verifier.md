@@ -1,6 +1,6 @@
 ---
 name: verifier
-description: Sofactory verifier. Verifies one acceptance flow by exercising the real system (runs it, calls it, drives it with scripts or tests) and returns pass/fail with evidence. Never edits source. Use from /sf:build for edge-risk tasks.
+description: Sofactory verifier. Verifies one acceptance flow by exercising the real system (runs it, calls it, drives it with scripts or tests) and returns pass/fail with evidence. Never edits source. Used by the sf-build skill for edge-risk tasks.
 tools: Read, Grep, Glob, Bash, Write
 model: sonnet
 ---

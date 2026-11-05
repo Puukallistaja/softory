@@ -104,7 +104,7 @@ export const register: Register = on => {
       <Box flexDirection="column">
         <Text bold>{st?.title ?? 'No run yet'}</Text>
         <Text dimColor>
-          {st?.phase ? `phase: ${st.phase}` : 'Run /sf:go to start'}
+          {st?.phase ? `phase: ${st.phase}` : 'Run /sf:sf-go to start'}
           {st?.round ? `  ·  round ${st.round}/${st.maxRounds ?? 3}` : ''}
         </Text>
         {st?.findings && (
@@ -136,9 +136,9 @@ export const register: Register = on => {
             <Button key="approve" label="Approve run" variant="primary" onPress={ask('Approve and run')} />
           )}
           {st?.phase === 'human_review' && (
-            <Button key="walk" label="Walk me through review" variant="primary" onPress={ask('/sf:review')} />
+            <Button key="walk" label="Walk me through review" variant="primary" onPress={ask('/sf:sf-review')} />
           )}
-          <Button key="dash" label="Dashboard" onPress={ask('/sf:stats')} />
+          <Button key="dash" label="Dashboard" onPress={ask('/sf:sf-stats')} />
           <Button key="clear" label="Clear" onPress={() => update($, agents, () => [])} />
         </Box>
       </Box>

@@ -11,7 +11,7 @@
     {
       "name": "sf",
       "source": "./plugins/sf",
-      "description": "Onboard a repo, grill out a spec, build with a builder/reviewer/verifier loop, open a PR, and walk the human through review."
+      "description": "Scan a repo, grill out a spec, build with a builder/reviewer/verifier loop, open a GitHub PR, and walk the human through review. Skills work in any Agent Skills client."
     },
     {
       "name": "sf-pane",

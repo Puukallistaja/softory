@@ -4,13 +4,13 @@
 
 | Harness feature | In the plugin |
 | --- | --- |
-| Repo onboarding scan, brief, ranked improvements | `scout` agent + `/sf:scan`; pick improvements with a click |
-| Grill-me spec interview, one question with a suggested answer | `/sf:spec`, clickable options with the suggestion marked Recommended; same spec YAML |
-| Preview / approve before running | First step of `/sf:build`; nothing irreversible before Approve |
+| Repo onboarding scan, brief, ranked improvements | `scout` agent + `sf-scan`; pick improvements with a click |
+| Grill-me spec interview, one question with a suggested answer | `sf-spec`, clickable options with the suggestion marked Recommended; same spec YAML |
+| Preview / approve before running | First step of `sf-build`; nothing irreversible before Approve |
 | Builder → reviewer loop, ≤3 rounds, findings to the same builder | Orchestrated by the `build` skill in the main session; the builder is continued by its agent id |
 | Verifier on edge-risk only, ≤2 rounds, parallel per flow | Same, one foreground Agent call per flow in a single message |
 | PR on GitHub | `gh pr create` (draft when escalated); falls back to the GitHub MCP tools or a compare URL |
-| Guided, inquisitorial human review | `/sf:review`: predict-then-reveal per risky stop, then an explicit decision |
+| Guided, inquisitorial human review | `sf-review`: predict-then-reveal per risky stop, then an explicit decision |
 | Event log and UI | `.sofactory/runs/<run>/events.jsonl`, `trace.jsonl`, status cards in chat, live pane, HTML dashboard |
 
 ## What is lost or weaker

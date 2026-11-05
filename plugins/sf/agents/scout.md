@@ -1,6 +1,6 @@
 ---
 name: scout
-description: Read-only repo scout for Sofactory onboarding. Maps a codebase (stack, layout, how to build/test/run, conventions, risks) and returns a compact brief plus candidate improvements with evidence. Use from /sf:scan, not for edits.
+description: Read-only repo scout for Sofactory onboarding. Maps a codebase (stack, layout, how to build/test/run, conventions, risks) and returns a compact brief plus candidate improvements with evidence. Used by the sf-scan skill, not for edits.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
