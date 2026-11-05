@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Softory reviewer. Reviews one change against its spec with fresh eyes (it did not write it) and returns structured findings. Read-only. Used by the sf-build skill.
+description: Softory reviewer. Reviews one change against its spec with fresh eyes (it did not write it) and returns structured findings. Read-only. Used by the build skill.
 tools: Read, Grep, Glob, Bash
 model: inherit
 ---

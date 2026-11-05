@@ -1,6 +1,6 @@
 ---
 name: builder
-description: Softory builder. Owns one task from a spec end to end — reads the code, makes the change, checks it with the project's tests — and later fixes review and verification findings in the same conversation. Used by the sf-build skill.
+description: Softory builder. Owns one task from a spec end to end — reads the code, makes the change, checks it with the project's tests — and later fixes review and verification findings in the same conversation. Used by the build skill.
 model: inherit
 ---
 ROLE: builder

@@ -1,5 +1,5 @@
 ---
-name: sf-build
+name: build
 description: Softory build. Use when the user wants a spec built by agents - preview and approve, builder and reviewer loop, verifiers on edge-risk tasks, then a GitHub PR. Takes a spec path, or uses the newest spec in .softory/specs/.
 ---
 
@@ -7,7 +7,7 @@ description: Softory build. Use when the user wants a spec built by agents - pre
 
 You are the orchestrator. You don't write the code yourself: the builder does. You keep the loop, the limits, the run log, and the user informed. The orchestration lives here, so never ask a role to orchestrate other roles.
 
-Follow the conventions in the `sf-go` skill for questions, subagents, status cards and the status file. The role instructions are in `roles/builder.md`, `roles/reviewer.md` and `roles/verifier.md` next to this file.
+Follow the conventions in the `go` skill for questions, subagents, status cards and the status file. The role instructions are in `roles/builder.md`, `roles/reviewer.md` and `roles/verifier.md` next to this file.
 
 ## Running the roles
 
@@ -88,7 +88,7 @@ Pushing and opening a PR are outward-facing. The Approve click in step 1 covers 
 
 ## 6. Hand over
 
-Set the phase to `human_review`. Show a final card with the outcome, the PR link, rounds used, findings fixed and open, and total tokens and time by role (a small table with text bars). Then ask "PR is up. What next?" with "Walk me through the review (Recommended)", which moves to the `sf-review` skill, "Show the stats", which moves to `sf-stats`, and "Done for now".
+Set the phase to `human_review`. Show a final card with the outcome, the PR link, rounds used, findings fixed and open, and total tokens and time by role (a small table with text bars). Then ask "PR is up. What next?" with "Walk me through the review (Recommended)", which moves to the `review` skill, "Show the stats", which moves to `stats`, and "Done for now".
 
 ## Escalation
 

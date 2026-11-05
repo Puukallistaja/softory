@@ -1,11 +1,11 @@
 ---
-name: sf-spec
-description: Softory grill-me spec interview. Use when the user wants to turn an idea, bug or improvement into a build spec, says "spec this" or "grill me", or before sf-build when no spec exists.
+name: spec
+description: Softory grill-me spec interview. Use when the user wants to turn an idea, bug or improvement into a build spec, says "spec this" or "grill me", or before the build skill when no spec exists.
 ---
 
 # Grill out a spec
 
-Goal: a spec the builder can finish without asking anything, which the user agrees is what they want. Interview relentlessly but efficiently. Follow the question conventions in the `sf-go` skill.
+Goal: a spec the builder can finish without asking anything, which the user agrees is what they want. Interview relentlessly but efficiently. Follow the question conventions in the `go` skill.
 
 ## How to interview
 
@@ -34,4 +34,4 @@ acceptance:
     description: Edit a note offline, reconnect, and the edit appears on a second device
 ```
 
-Show the spec in a fenced block, then ask "Spec ready. What next?" with the options "Preview the build (Recommended)", which moves to the `sf-build` skill, "Edit the spec", and "Save for later".
+Show the spec in a fenced block, then ask "Spec ready. What next?" with the options "Preview the build (Recommended)", which moves to the `build` skill, "Edit the spec", and "Save for later".

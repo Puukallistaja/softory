@@ -8,8 +8,8 @@ sync() { # $1 agent name, $2 role file
   { awk 'BEGIN{n=0} {print} /^---$/ {n++; if (n==2) exit}' "$agent"; cat "$2"; } > "$agent.tmp"
   mv "$agent.tmp" "$agent"
 }
-sync builder  skills/sf-build/roles/builder.md
-sync reviewer skills/sf-build/roles/reviewer.md
-sync verifier skills/sf-build/roles/verifier.md
-sync scout    skills/sf-scan/roles/scout.md
+sync builder  skills/build/roles/builder.md
+sync reviewer skills/build/roles/reviewer.md
+sync verifier skills/build/roles/verifier.md
+sync scout    skills/scan/roles/scout.md
 echo "agents synced"
