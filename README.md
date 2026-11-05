@@ -21,14 +21,14 @@ How you call a skill depends on the agent: `$sf-go` in Codex, `/sf:sf-go` in Cla
 
 1. Clone the repo somewhere you'll keep it:
    ```bash
-   git clone https://github.com/Puukallistaja/softory-plugins ~/softory-plugins
+   git clone https://github.com/Puukallistaja/softory ~/softory
    ```
 2. Link the skills into Codex's user skills folder:
    ```bash
    mkdir -p ~/.agents/skills
-   for s in ~/softory-plugins/plugins/sf/skills/*; do ln -s "$s" ~/.agents/skills/; done
+   for s in ~/softory/plugins/sf/skills/*; do ln -s "$s" ~/.agents/skills/; done
    ```
-   Linking instead of copying means `git pull` in `~/softory-plugins` updates the skills. To use them in one repo only, link them into that repo's `.agents/skills/` instead.
+   Linking instead of copying means `git pull` in `~/softory` updates the skills. To use them in one repo only, link them into that repo's `.agents/skills/` instead.
 3. Restart Codex, then run `/skills` or type `$sf` to check that the six skills appear.
 4. Sign in to GitHub once with `gh auth login`, so the factory can open PRs as you.
 
@@ -38,7 +38,7 @@ In Codex the roles run as subagents when Codex starts them, and the questions co
 
 1. Type these into Claude Code, either the desktop app's Code tab or `claude` in a terminal:
    ```
-   /plugin marketplace add Puukallistaja/softory-plugins
+   /plugin marketplace add Puukallistaja/softory
    /plugin install sf@softory
    /plugin install sf-pane@softory
    ```
@@ -52,7 +52,7 @@ To have Claude Code offer the plugin to anyone who opens a repo, add this to the
 ```json
 {
   "extraKnownMarketplaces": {
-    "softory": { "source": { "source": "github", "repo": "Puukallistaja/softory-plugins" } }
+    "softory": { "source": { "source": "github", "repo": "Puukallistaja/softory" } }
   },
   "enabledPlugins": { "sf@softory": true }
 }
@@ -102,7 +102,7 @@ Each run uses several times the tokens of a normal chat, because every role read
 
 ## Update or remove
 
-- **Codex and other agents:** run `git pull` in `~/softory-plugins`. To remove, delete the `sf-*` links from the skills folder.
+- **Codex and other agents:** run `git pull` in `~/softory`. To remove, delete the `sf-*` links from the skills folder.
 - **Claude Code:** run `/plugin marketplace update softory` and start a new session. To remove, run `/plugin uninstall sf@softory`, `/plugin uninstall sf-pane@softory`, then `/plugin marketplace remove softory`.
 
 ## Troubleshooting
